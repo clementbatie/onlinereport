@@ -1,0 +1,16 @@
+/vendor
+/node_modules
+Homestead.yaml
+Homestead.json
+.env
+public/uploads
+public/ppdu/test/
+resources/views/attachments/.DS_Store
+resources/views/forwardingletters/ministry/.DS_Store
+resources/views/layouts/app.blade-ok-260316.php
+resources/views/layouts/app.okMay3-blade.php
+resources/views/mailinglists/_crud-old.blade.php
+resources/views/meetingparticipants/.DS_Store
+resources/views/meetings/create_magaliza.blade.php
+resources/views/projects/.DS_Store
+resources/views/projects/show-x.blade.php

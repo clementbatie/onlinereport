@@ -1,0 +1,70 @@
+.notify{
+	line-height:20px;
+background-color: #16a765;
+font-weight:bold;
+	color:white;
+	padding:1px;
+	float:right;
+	width:auto;
+	border-radius:2px;
+	
+}
+.notifyred{
+	line-height:20px;
+background-color: red;
+font-weight:bold;
+	color:white;
+	padding:1px;
+	float:right;
+	width:auto;
+	border-radius:2px;
+	
+}
+.col-md-offset-3 {
+    margin-left: 29%;
+}
+.img_head{
+	width:45px;
+	height:45px;
+	position:relative;
+	margin-top:-12px;
+	
+}
+.blink {
+	-webkit-animation: blink .75s linear infinite;
+	-moz-animation: blink .75s linear infinite;
+	-ms-animation: blink .75s linear infinite;
+	-o-animation: blink .75s linear infinite;
+	 animation: blink .75s linear infinite;
+}
+@-webkit-keyframes blink {
+	0% { opacity: 1; }
+	50% { opacity: 1; }
+	50.01% { opacity: 0; }
+	100% { opacity: 0; }
+}
+@-moz-keyframes blink {
+	0% { opacity: 1; }
+	50% { opacity: 1; }
+	50.01% { opacity: 0; }
+	100% { opacity: 0; }
+}
+@-ms-keyframes blink {
+	0% { opacity: 1; }
+	50% { opacity: 1; }
+	50.01% { opacity: 0; }
+	100% { opacity: 0; }
+}
+@-o-keyframes blink {
+	0% { opacity: 1; }
+	50% { opacity: 1; }
+	50.01% { opacity: 0; }
+	100% { opacity: 0; }
+}
+@keyframes blink {
+	0% { opacity: 1; }
+	50% { opacity: 1; }
+	50.01% { opacity: 0; }
+	100% { opacity: 0; }
+}
+

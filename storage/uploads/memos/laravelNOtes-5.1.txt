@@ -1,0 +1,359 @@
+************************************************************************************
+********************* 	Composer errors:		****************************
+************************************************************************************
+in case of ff error:
+[Composer\Downloader\TransportException]                                                                                                               
+  The 'http://packagist.org/p/provider-2015%24edba852f55cb4b2d35cd388132fc63932fef25341b55ed9b79bacc07663102a5.json' URL could not be accessed: HTTP/1.  
+  1 400 Bad Request  
+--------------->
+Add this to composer.jason file
+"repositories": [
+    {
+         "type": "composer", 
+         "url": "https://packagist.org"
+    },
+    { "packagist": false }
+]
+
+_____________________________
+enabling form HTML package:
+see
+https://laravelcollective.com/docs/5.2/html
+
+***note: /bootstrap/cache/ needs to be writeable too.
+
+****useful utilities: ****
+Finding unclosed HTML tags:
+http://jona.ca/blog/unclosed-tag-finder
+
+************************************************************************************
+********************* 		Laravel Tut -2		 	********************
+
+
+install with composer:
+composer global require "laravel/installer"
+
+create a new project like so;
+laravel new blog
+or 
+composer create-project --prefer-dist laravel/laravel blog 
+Above commands will download all dependencies also. Need to be online. It creates a vendor folder. otherwise you get error:
+Failed opening required .bootstrap /../vendor/autoload.php' ….in /bootstrap/autoload.php on line 17
+its about 32 meg download
+
+*******************************  Errors ************************************************
+error 500/blank page: (also internal server error 500)
+/storage/logs/laravel.log" could not be opened:
+
+change permissions to 757 for storage/logs, storage/framework/views as well (also other folders)
+File locations:
+app/Http/routes.php
+app/models
+resources/views    <-- put your views here
+resources/views/home.blade.php   <-- master layout
+resources/views/errors/
+
+
+do migrations php artisan migrate
+(does all the migrations)
+
+
+(generates this error: failure:  [PDOException]                                    
+  SQLSTATE[HY000] [2002] No such file or directory 
+-->Laravel 5: Change "DB_HOST" in the .env file from "localhost" to "127.0.0.1"
+***-->set up db connections in .env file (it currently uses homestead
+
+(i made main folder writeable, because a models table did not exist)
+
+==help===
+php artisan help <command>
+php artisan list   <-- lists all the commands
+
+==============Models============
+Create a model:
+php artisan make:model <modelName>
+php artisan make:model Models/Region
+i used fully qualified path, otherwise models just end up in app folder.
+Use singular for model, table name is plural (regions)
+
+modify Model: $fillable and relationships
+
+    //verify if any of theses is case sensitive
+        protected $table = 'sampleTable';
+    protected $fillable=['AName', 'DateOfBirth', 'Weight', 'Gender', 'RegionID','userid'];
+    public $timestamps=false;
+
+
+    public function region()  //meant to return corresponding region -another name can do)
+    {
+     return $this->belongsTo('\App\Models\Region', 'RegionID', 'ID');  //other fan is hasMany(…)
+     //nb: regionID is FK in sampleTable. ID is PK in Regions table
+    }
+
+
+========Authentication =======
+run ff to create view scaffolds  (see https://laravel.com/docs/5.2/authentication)
+php artisan make:auth --views  
+
+seems to do same without views switch
+register authentication views in the routes file with
+
+Route::auth();
+(see below for location of routes files)
+I added as first entry in the file. (if at the end, errors occur)
+
+for explanation of related pages for auth: see https://mattstauffer.co/blog/the-auth-scaffold-in-laravel-5-2
+welcome.blade.php - the public welcome page
+home.blade.php - the dashboard for logged-in users
+auth/login.blade.php - the login page
+auth/register.blade.php - the register/signup page
+auth/passwords/email.blade.php - the password reset confirmation page
+auth/passwords/reset.blade.php - the password reset prompt page
+auth/emails/password.blade.php - the password reset email
+
+
+=======Routes=========
+routes.php located in app/Http/routes.php
+add routes:
+Route::get('/listing1', 'RegionController@Listing1Fxn');
+Route::resource('regions', 'RegionController');
+In the case of supplementary routes to a resource controller, add the new route before the resource 
+
+================Controllers:=================
+php artisan make:controller RegionController
+above creates an empty controller
+php artisan  make:controller --resource RegionController
+above makes resourceful controller (stubbed methods created)
+
+add a resource route to routes.php. see above
+
+Simply return a view without data:
+  public function index()
+    {     
+        return view('regions.list');  
+	//implies a file exists at /resources/views/regions/list.blade.php
+	//will fail if the blade has variables names in it but not specified. 
+	//mitigate errors by providing defaults see below
+    }
+
+
+==========Views========
+located in /resources/views. YOu can create subdirectories to group related views. Refer to them with . notation
+Save with .blade.php extension.
+A base layout is defined. Extend the base layout. 
+replaces @yield and @section
+
+examples:
+base layout: located at resources/views/layouts/master.blade.php
+
+<html>
+    <head>
+        <title>App Name - @yield('title')</title>
+    </head>
+    <body>
+        @section('sidebar')		<--section-show provides default content
+            This is the master sidebar.
+        @show
+
+        <div class="container">
+            @yield('content')		<-- @yield, it always gets content from child layout.
+        </div>
+    </body>
+</html>
+=======================
+
+the ff extends above:
+
+@extends('layouts.master')		<--extend layout
+
+@section('title', 'Page Title')
+
+@section('sidebar')
+    @parent				<---@parent appends the new content
+
+    <p>This is appended to the master sidebar.</p>
+@endsection
+
+@section('content')			<--replace section in layout with section+endsection
+    <p>This is my body content.</p>
+@endsection
+
+==========strategies for dealing with errors while work in progress:  =============
+if no data yet in controller, do this:
+public function index()
+    {
+        $regions=array();
+        return view('regions.list')->with(compact('regions'));
+//        return view('regions.list', compact('regions'));  //also ok
+    }
+
+===in view, do this: ====
+example child view snippet:
+@foreach($regions as $region)			<--no way to bypass this, so empty array was sent
+<tr>
+<td>{{$region->id or 'DEFAULT'}}</td>		<--will set a default value if region-id is null
+<td>{{$region->Region or 'DEFAULT'}}</td>		(Fieldnames are case sensitive)
+</tr>
+@endforeach
+
+
+will be good to write test to check for DEFAULT
+
+
+*************************more on controllers *************************
+**rules,
+ private $_rules =	 [        
+	 	'aname' => 'required|min:3|max:10',
+        'age'=>'integer',
+        'gender'=>'in:0,1'
+    ];
+  $_messages=['aname.required'=>'Your  is needed',
+  		'aname.min'=>'Your name should be at least 3 chars long'
+  		  					];
+  $this->validate($request, $_rules, $_messages);
+
+also ok too if rules specified in model
+  $validation = Validator::make($request->all(), SampleTable::$rules, SampleTable::$messages);
+
+=====saving===
+ if ($validation->passes())
+        {
+            $sampletable = new SampleTable();
+            $sampletable->aname=$request->aname;
+        	$sampletable->weight=$request->weight;
+        	
+			$sampletable->save();			
+            return redirect('sampletable');
+            
+        }
+
+//  return back()
+        return redirect('sampletable/create')
+            ->withInput()
+            ->withErrors($validation)
+            ->with('message', 'There were validation errors.');
+=============
+
+
+**validation
+use Validator
+For the form valises to be pre filled withErrors as above, the form variables should have 
+value="{{  old('value')  }}" set as value of the control  (can use "value" or 'value'
+e.g.
+
+<!-- Text input-->
+<div class="form-group">
+  <label class="col-md-4 control-label" for="aname">Enter your name</label>  
+  <div class="col-md-4">
+  <input id="aname" name="aname" value="{{ old('aname') }}" type="text" placeholder="your name" class="form-control input-md" required="">
+  <span class="help-block">help - enter your name</span>  
+  </div>
+</div>
+
+
+
+**errors & flashing========
+create an errors file at  views/errors/messages.blade.php
+content: (or style better)=======
+@if (count($errors) > 0)
+    <!-- Form Error List -->
+    <div class="alert alert-danger">
+        <strong>Whoops! Something went wrong!</strong>
+
+        <br><br>
+
+        <ul>
+            @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+    </div>
+@endif
+===========
+
+add this to the create.blade.php form  above the form;
+ @include('errors.messages')
+
+
+
+
+============================================================================================
+OTHER TOPICS
+============================================================================================
+If your application is exclusively using controller based routes: (i.e. with no closures, nb homepage is a closure)
+Route caching for deployment: (this did increase resolution speed!)
+php artisan route:cache
+
+php artisan route:clear
+
+
+***there is a bug in logic for accessing pages outside the authenticated pages. Shows user as needing to log in again.
+============================================================================================
+Tools:
+**make use of http://bootsnipp.com/forms to build forms quickly
+
+
+=====helper fxns======
+create a link with URL::route('regions.index') to a named route
+url('regions') creates a full path url. include in href tag.
+**('regions.index') used in 1st one because it is a named ROUTE. By default, resource routes are named.
+2nd one, is just a path, defaults to /regions. Same effect
+No errors if controller exists and path/route is specified even if view does not exist yet.
+
+
+
+Helpful links;
+using shared constants in larval
+http://laravel.io/forum/06-05-2014-how-to-use-my-constants-in-larvel
+
+==================YII=====================
+/* failed
+install Yii with 
+composer global require "fxp/composer-asset-plugin:~1.1.1"
+composer create-project --prefer-dist yiisoft/yii2-app-basic basic
+
+Composer\Downloader\TransportException] error (for larval, i added on 
+"repositories": [
+    {
+         "type": "composer", 
+         "url": "https://packagist.org"
+    },
+    { "packagist": false }
+]
+}
+*/
+
+finally decided to download basic.gz file
+Modify the config/web.php file by entering a secret key for the cookieValidationKey configuration item
+(php yii serve did to work for me --> was meant to start a server, but we have campp)
+This works: php -S localhost:8000
+
+
+access the web folder from browser
+fix write permissions on:
+basic/runtime
+basic/web/assets
+
+(loads the default pages)
+
+
+
+
+The route's format is ControllerID/ActionID
+eg 
+index.php?r=site/say&message=Hello+World-the%20firsts
+route is site, actionID is say
+SiteController::actionSay() method will be called 
+
+**controller ID post-comment corresponds to the controller class name PostCommentController.
+
+use Html::encode($message) to prevent cross site scripting of user output
+
+===
+run gii from 
+http://localhost/mywebs/yii/basic/web/index.php?r=gii
+make folders rwx for models, controllers and views
+
+
+for CRUD, follow hints provided, provide paths e.g. app\models\ModelName
+you may omit that for views, it will be done correctly.

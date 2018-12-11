@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!--=============================================== 
+    Template Design By WpFreeware Team.
+    Author URI : http://www.wpfreeware.com/
+    ====================================================-->
+
+    <!-- Basic Page Needs
+    ================================================== -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+     <title>BaTech : Home </title>
+
+    <!-- Mobile Specific Metas
+    ================================================== -->
+    
+    <!-- CSS
+    ================================================== -->       
+    <!-- Bootstrap css file-->
+    
+
+     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.4.0/css/font-awesome.min.css" rel='stylesheet' type='text/css'>
+    <link href="https://fonts.googleapis.com/css?family=Lato:100,300,400,700" rel='stylesheet' type='text/css'>
+    <!-- Styles -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.2/css/bootstrap-select.min.css">
+
+<!-- Latest compiled and minified JavaScript -->
+
+
+    {{-- <link href="{{ elixir('css/app.css') }}" rel="stylesheet"> --}}
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.37/css/bootstrap-datetimepicker.min.css" />
+
+    <!-- for calendar control styling  -->
+    <link href="{{ asset('ppdu/css/jquery-ui.css') }}" rel="stylesheet">
+    <link href="{{ asset('ppdu/css/nnastyles.css') }}" rel="stylesheet">  <!-- styles for mailing list 2 lists -->
+    <link href="ppdu/css/bootstrap.min.css" rel="stylesheet">
+    <link href="{{ asset('ppdu/css___/style.css') }}" rel="stylesheet">
+
+<!-- <link href="css/style.css" rel="stylesheet"> -->
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!--   <style>
+        body {
+            font-family: 'Lato';
+        }
+.display_color{background-color:#0067a9; height:10px; width:100%;
+}
+        .fa-btn {
+            margin-right: 6px;
+        }
+    #head-wrap{
+
+ -webkit-box-shadow: 3px 2px 4px rgba(0,0,0,.5);
+    -moz-box-shadow: 3px 2px 4px rgba(0,0,0,.5);
+    box-shadow: 3px 2px 4px rgba(0,0,0,.5);
+    background:url(../img/bg-body.jpg);
+
+}
+    </style>
+      @yield('header')
+  -->
+  </head>
+
+<body id="app-layout">
+<header id="header">
+  <div class="menu_area">
+
+
+  <!-- <div class="display_color"></div> -->
+   <nav class="navbar navbar-default navbar-fixed-top" role="navigation">  <div class="container">
+            <div class="navbar-header">
+  <!-- <div class="container-fluid"> -->
+    <!-- <div class="navbar-header"> -->
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+
+       <div style="padding-right:90px;">
+                  <a style="color:#fff;" class="navbar-brand" href="index.html">BaTech <span>Limited</span></a>
+       </div>
+
+     @if(Auth::guest())
+
+@endif
+    </div>
+
+<div class="collapse navbar-collapse" id="myNavbar">
+
+  @if (Auth::guest())
+
+                @else
+
+      <ul class="nav navbar-nav">
+          <li><a href="{{url('/')}}">Home</a></li>
+
+          @if(auth()->user()->UserLevelID == 4)
+          <li class="dropdown">
+            <a class="dropdown-toggle" data-toggle="dropdown" href="#">Administration<span class="caret"></span></a>
+            <ul class="dropdown-menu">
+
+               <li><a href="{{url('/yeartermsetup')}}">Year Term Setup</a></li>
+
+              <li><a href="{{url('/usermanagement2')}}">Create User</a></li>
+              
+             {{--  <li><a href="{{url('/parents')}}">Create Parent</a></li> --}}
+
+              <li><a href="{{url('/teacher')}}">Create Teacher</a></li>
+
+              <li><a href="{{url('/classinfo')}}">Create Class Info</a>
+
+              <li><a href="{{url('/term')}}">Create Term</a>
+
+              <li><a href="{{url('/subject')}}">Create Subject</a>
+
+              <li><a href="{{url('/student')}}">Create Student</a>
+
+                 <li><a href="{{url('/schoolinfo')}}">Create School Information</a></li>
+
+             <!--  <li><a href="{{url('/submitreport')}}">Submit Report</a></li> -->
+            </ul>
+          </li>
+        @endif
+@if(auth()->user()->UserLevelID == 4 || auth()->user()->UserLevelID == 2 || auth()->user()->UserLevelID == 6)
+      <li class="dropdown">
+            <a class="dropdown-toggle" data-toggle="dropdown" href="#">Exam Details<span class="caret"></span></a>
+            <ul class="dropdown-menu">
+              <li><a a href="{{url('/terminalscore')}}">Enter Terminal Score</a>
+              </li>
+              <li><a a href="{{url('/studentbehaviour')}}">Enter Student Behaviour</a></li>
+            </ul>
+          </li>          
+    @endif
+    @if(auth()->user()->UserLevelID != 2)
+         <li class="dropdown">
+          <a class="dropdown-toggle" data-toggle="dropdown" href="#">Report<span class="caret"></span></a>
+          <ul class="dropdown-menu">
+            <li><a href="{{url('/studentreport')}}">Terminal Report</a></li>
+            <li><a href="{{url('/studentclass')}}">Student in a Class</a></li>
+            <li><a href="{{url('/teacherclass')}}">Teachers and Class</a></li>
+            <li><a href="{{url('/listsofclass')}}">Lists of Class</a></li>
+            <!--  <li><a href="{{url('/template')}}">Template</a></li> -->
+            
+            {{-- <li class="divider"></li> --}}
+            
+          </ul>
+        </li>
+        @endif
+        <li class="dropdown">
+          <a class="dropdown-toggle" data-toggle="dropdown" href="#">SMS<span class="caret"></span></a>
+          <ul class="dropdown-menu">
+            <li><a href="{{url('/sms')}}">Send SMS to Members</a></li>
+            <li><a href="{{url('/smspersonalised')}}">Send Personalised SMS to Members</a></li>
+            <li><a href="{{url('/smsbulk')}}">Send SMS to Absentees</a></li>
+            <li><a href="{{url('/smsbulkpersonalised')}}">Send Personalised SMS to Absentees</a></li>
+            @if(auth()->user()->UserLevelID == 1 || auth()->user()->UserLevelID==4)
+            <li><a href="{{url('/leadersms')}}">Send SMS to Leaders</a></li>
+            <li><a href="{{url('/leadersmspersonalised')}}">Send Personalised SMS to Leaders</a></li>
+             @endif
+            <li><a href="{{url('/smsbalance')}}">SMS Credits Balance</a></li>
+            <li><a href="{{url('/shortcode')}}">SMS Shortcode</a></li>
+            <li><a href="{{url('/branchcode')}}">SMS Branchcode</a></li>
+       
+          </ul>
+        </li>
+
+<!-- <li class="dropdown">
+          <a class="dropdown-toggle" data-toggle="dropdown" href="#">Setup<span class="caret"></span></a>
+          <ul class="dropdown-menu">
+            <li><a href="{{url('/schoolinfo')}}">School Information</a></li>
+            <li><a href="{{url('/classes')}}">Class</a></li>
+            <li><a href="{{url('/studentreport')}}">Term</a></li>
+            <li><a href="{{url('/studentreport')}}">Subject</a></li>
+
+
+            <!--  <li><a href="{{url('/template')}}">Template</a></li> -->
+            
+ <!-- <li class="divider"></li>
+            
+          </ul>
+        </li> --> 
+
+
+      </ul>
+    
+    @endif
+      <ul class="nav navbar-nav navbar-right">
+       @if (Auth::guest()) 
+        <li><a href="{{url('/login')}}"  class="active_link"><span class=""></span> Login</a></li>
+    <br>
+
+
+    @else
+        <li class="dropdown">
+          <a class="dropdown-toggle" data-toggle="dropdown" href="#">{{Auth::user()->name }}<span class="caret"></span></a>
+          <ul class="dropdown-menu">
+        <li><a href="{{ url('/logout') }}"> <i class="fa fa-btn fa-sign-out"></i> Logout</a></li>
+ <li><a href="{{url('/resetpassword')}}">Password Reset</a></li>
+@endif
+
+          </ul>
+        </li>
+      </ul>
+    </div>
+</div>
+</nav>
+</header>
+   @yield('content')
+
+    <!-- JavaScripts -->
+    {{-- <script src="{{ elixir('js/app.js') }}"></script> --}}
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.6/moment.min.js"></script>                       
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.37/js/bootstrap-datetimepicker.min.js"></script>
+   
+    <script src="{{ asset('ppdu/js/jquery-ui.js') }}"></script>
+    <script src="{{ asset('ppdu/js/scripts.js') }}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.2/js/bootstrap-select.min.js"></script>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script src="{{ asset('js/jquery.table2excel.min.js') }}"></script>
+    <script type="text/javascript">
+      $("#export").click(function(){
+
+        $("#exporttable").table2excel({
+
+      // exclude CSS class
+
+      exclude: ".noExl",
+
+      name: "Worksheet Name",
+
+      filename: "Report" //do not include extension
+
+    });
+
+      });
+    </script>
+    <style type="text/css" media="print">
+    form, #aaa
+    { display: none; }
+    </style>
+</body>
+</html>
+
+

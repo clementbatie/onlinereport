@@ -1,0 +1,1 @@
+<div class="text-center">Powered by 3C Technologies Ltd &copy; 2017</div>

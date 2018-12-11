@@ -1,0 +1,37 @@
+php artisan  make:controller --resource AgendaAttachmentController 
+php artisan  make:controller --resource AgendaItemController 
+php artisan  make:controller --resource AgendaController 
+php artisan  make:controller --resource AllowedUserController 
+php artisan  make:controller --resource ApprovalDecisionLetterController 
+php artisan  make:controller --resource ApprovalMemoController 
+php artisan  make:controller --resource CommitteeReportController 
+php artisan  make:controller --resource ContractorController 
+php artisan  make:controller --resource DecisionLetterController 
+php artisan  make:controller --resource DecisionStatusController 
+php artisan  make:controller --resource DecisionController 
+php artisan  make:controller --resource DistrictController 
+php artisan  make:controller --resource DocumentStateHistoryController 
+php artisan  make:controller --resource DocumentTypeController 
+php artisan  make:controller --resource DocumentController 
+php artisan  make:controller --resource ExecutiveApprovalMemoController 
+php artisan  make:controller --resource ForwardingLetterController 
+php artisan  make:controller --resource FundingSourceController 
+php artisan  make:controller --resource MeetingParticipantController 
+php artisan  make:controller --resource MeetingTypeController 
+php artisan  make:controller --resource MeetingController 
+php artisan  make:controller --resource MemoController 
+php artisan  make:controller --resource MinuteController 
+php artisan  make:controller --resource PriorityController 
+php artisan  make:controller --resource ProjectReportController 
+php artisan  make:controller --resource ProjectStatusController 
+php artisan  make:controller --resource ProjectTypeController 
+php artisan  make:controller --resource ProjectController 
+php artisan  make:controller --resource RecommendationStatusController 
+php artisan  make:controller --resource RegionController 
+php artisan  make:controller --resource SourceController 
+php artisan  make:controller --resource WorkflowNavigationController 
+php artisan  make:controller --resource WorkflowStateController 
+php artisan  make:controller --resource WorkflowController 
+php artisan  make:controller --resource UserLevelController 
+
+

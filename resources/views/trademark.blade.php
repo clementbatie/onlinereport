@@ -1,0 +1,1 @@
+<div class="text-center">SentaCode Technologies Ltd &copy; 2018</div>
